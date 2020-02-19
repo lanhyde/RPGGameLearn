@@ -79,21 +79,22 @@
 # To程序开发人员
 开发时请遵守以下规定：
 1. 做的任何改动请通过pull request进行合并。
-2. 所有的pull request必须是合并到develop分支的，不允许发起合并到master分支的请求
-3. pull request至少要有1个人review，并给与LGTM后才可以进行合并。原则上不允许任何
+2. 对项目进行更改时，请创建并切换到新分支后进行开发作业。
+3. 所有的pull request必须是合并到develop分支的，不允许发起合并到master分支的请求
+4. pull request至少要有1个人review，并给与LGTM后才可以进行合并。原则上不允许任何
    无review的合并。如果有不得不合并的理由，请在slack的频道上留言，得到他人的LGTM
    后方可进行合并。
-4. 发生conflict后，请Resolve后再合并。
-5. 编码时请遵守命名规则的规定：函数名使用CamelCase格式命名，类成员使用camelCase格式
+5. 发生conflict后，请Resolve后再合并。
+6. 编码时请遵守命名规则的规定：函数名使用CamelCase格式命名，类成员使用camelCase格式
    命名。public static成员使用CAMEL_CASE格式命名。private static遵守camelCase格式。
-6. 一个函数/方法的长度最长不要超过60行。如果特殊理由，请在注释中说明缘由。
-7. 代码需要有适当的注释，这样别人改你的代码时不至于从何处下手。
-8. 对代码/项目有任何疑问，请在github repository的issues中或者slack频道留言。
-9. 对代码的位置有好的分类。比如：和Movement相关的代码移动到Movement目录下，和Inventory
+7. 一个函数/方法的长度最长不要超过60行。如果特殊理由，请在注释中说明缘由。
+8. 代码需要有适当的注释，这样别人改你的代码时不至于从何处下手。
+9. 对代码/项目有任何疑问，请在github repository的issues中或者slack频道留言。
+10. 对代码的位置有好的分类。比如：和Movement相关的代码移动到Movement目录下，和Inventory
    相关的代码放到Inventory目录下。共通部分放到Common目录下。
-10. 原则上，代码中最好不要直接出现数字和字符串。如果需要，请定义相关类的Config类来管理
-11. 对现有的代码有任何更好的实现方法，欢迎pull request。
-12. 关于如何使用git/tortoisegit来管理代码，参见[这里](./version_control.md)
+11. 原则上，代码中最好不要直接出现数字和字符串。如果需要，请定义相关类的Config类来管理
+12. 对现有的代码有任何更好的实现方法，欢迎pull request。
+13. 关于如何使用git/tortoisegit来管理代码，参见[这里](./version_control.md)
 
 # To美工人员
 1. 请使用正版的DD软件。可以考虑使用以下开源/免费软件代替：
