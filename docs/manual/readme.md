@@ -8,11 +8,11 @@
 </p>
 4. 继续Next
 <p align="center">
-	<img src=".img/01_git_installation_02.png" alt="step2"/>
+	<img src="./img/01_git_installation_02.png" alt="step2"/>
 </p>
 5. 选择你习惯的编辑器，然后Next
 <p align="center">
-	<img src=".img/01_git_installation_03.png" alt="step3"/>
+	<img src="./img/01_git_installation_03.png" alt="step3"/>
 </p>
 6. 默认"Use Git from Git Bash only"，然后Next
 <p align="center">
@@ -42,28 +42,28 @@
 3. 和上面的安装过程类似，保持默认的安装选项，一路下一步，最后Install
    在选择安装选项时，建议全选。
 <p align="center">
-	<img src=".img/02_tortoisegit_installation.png" alt="option"/>
+	<img src="./img/02_tortoisegit_installation.png" alt="option"/>
 </p>
 4. 最后点击Finish完成
 5. 完成后，进入TortoiseGit配置界面，点击下一步
 <p align="center">
-	<img src=".img/02_tortoisegit_config_01.png" alt="option"/>
+	<img src="./img/02_tortoisegit_config_01.png" alt="option"/>
 </p>
 6. 继续下一步
 <p align="center">
-	<img src=".img/02_tortoisegit_config_02.png" alt="option"/>
+	<img src="./img/02_tortoisegit_config_02.png" alt="option"/>
 </p>
 7. 配置git的路径。一般情况下Git.exe Path会自动填写git的安装路径。如果没有的话，请手动指定。
 <p align="center">
-	<img src=".img/02_tortoisegit_config_03.png" alt="option"/>
+	<img src="./img/02_tortoisegit_config_03.png" alt="option"/>
 </p>
 8. 填写你的名字和Email，然后下一步
 <p align="center">
-	<img src=".img/02_tortoisegit_config_04.png" alt="option"/>
+	<img src="./img/02_tortoisegit_config_04.png" alt="option"/>
 </p>
 9. 这里保持默认值，然后点击完成
 <p align="center">
-	<img src=".img/02_tortoisegit_config_05.png" alt="option"/>
+	<img src="./img/02_tortoisegit_config_05.png" alt="option"/>
 </p>
 
 ## clone代码库到本地
@@ -72,7 +72,7 @@
 3. 在弹出的Git clone对话框中，URL栏输入"https://github.com/lanhyde/RPGGameLearn.git",
    勾选LFS，然后点击OK
 <p align="center">
-	<img src=".img/03_clone_repository" alt="option"/>
+	<img src="./img/03_clone_repository" alt="option"/>
 </p>
 4. 等待代码库克隆完成，点击OK。
 
