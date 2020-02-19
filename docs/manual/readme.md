@@ -72,7 +72,7 @@
 3. 在弹出的Git clone对话框中，URL栏输入"https://github.com/lanhyde/RPGGameLearn.git",
    勾选LFS，然后点击OK
 <p align="center">
-	<img src="./img/03_clone_repository" alt="option"/>
+	<img src="./img/03_clone_repository.png" alt="option"/>
 </p>
 4. 等待代码库克隆完成，点击OK。
 
