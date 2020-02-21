@@ -77,6 +77,17 @@
 4. 等待代码库克隆完成，点击OK。
 
 # To程序开发人员
+## Visual Studio Code中推荐安装的插件
+* C#
+* Unity Code Snippets
+* Debugger for Unity
+* Unity DOTS Snippets (如果今后需要进行DOTS开发的话)
+
+## Visual Studio Code的配置（建议，可以无视）
+* 关闭Editor: Code Lens功能
+* 开启Editor: Format On Paste
+
+
 开发时请遵守以下规定：
 1. 做的任何改动请通过pull request进行合并。
 2. 对项目进行更改时，请创建并切换到新分支后进行开发作业。
