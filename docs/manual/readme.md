@@ -114,3 +114,13 @@
 * Illustration => Inkscape
 2. 素材放到项目的/design/目录下，根据素材的分类分别存放
 
+# 项目中各目录的作用
+ | 目录名 | 对哪些人员 | 目录内容 | 目录结构 |
+ | ------ | ---------- | -------- | -------- |
+ | Scripts |  开发人员  |   代码   | 命名空间/功能 |
+ |  Game  |  设计人员  | Prefabs, ScriptableObjects | 实例单元 |
+ | Scenes | 场景设计人员 | 场景，地形，NavMesh等 | 场景 |
+ |   UI   | UI设计人员 | UI Prefabs | 界面 |
+ | Asset Packs | - | 导入的资源 | 资源包 |
+ | Audio | 音效设计人员 | 音频文件 | |
+ | Models | 建模/动画人员 | FBX, meshes, 动画等 | |
