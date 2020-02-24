@@ -1090,11 +1090,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6235676300328897167, guid: 4cd95ae3e367ac24eaf7d29d0fda36f3,
-        type: 3}
-      propertyPath: m_Name
-      value: Player
-      objectReference: {fileID: 0}
     - target: {fileID: 2496813310375507992, guid: 4cd95ae3e367ac24eaf7d29d0fda36f3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1149,6 +1144,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6235676300328897167, guid: 4cd95ae3e367ac24eaf7d29d0fda36f3,
+        type: 3}
+      propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6235676300328897167, guid: 4cd95ae3e367ac24eaf7d29d0fda36f3,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cd95ae3e367ac24eaf7d29d0fda36f3, type: 3}
@@ -1534,6 +1539,7 @@ Terrain:
   m_MaterialTemplate: {fileID: 0}
   m_BakeLightProbesForTrees: 1
   m_PreserveTreePrototypeLayers: 0
+  m_DeringLightProbesForTrees: 0
   m_ScaleInLightmap: 0.1024
   m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
   m_GroupingID: 0
@@ -1634,16 +1640,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 8667251554437384133, guid: 26ac59d2fe45c804ab95d2ad23b4d0f6,
-        type: 3}
-      propertyPath: m_Name
-      value: Follow Camera
-      objectReference: {fileID: 0}
     - target: {fileID: 8667251554437384132, guid: 26ac59d2fe45c804ab95d2ad23b4d0f6,
         type: 3}
       propertyPath: target
       value: 
       objectReference: {fileID: 483838739}
+    - target: {fileID: 8667251554437384133, guid: 26ac59d2fe45c804ab95d2ad23b4d0f6,
+        type: 3}
+      propertyPath: m_Name
+      value: Follow Camera
+      objectReference: {fileID: 0}
     - target: {fileID: 8667251554437384139, guid: 26ac59d2fe45c804ab95d2ad23b4d0f6,
         type: 3}
       propertyPath: m_LocalPosition.x
