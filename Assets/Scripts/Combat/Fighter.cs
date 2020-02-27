@@ -12,7 +12,7 @@ namespace RPG.Combat
         float timeBetweenAttacks = 1.5f;
         [SerializeField]
         float weaponDamage = 4f;
-
+        private const float maxSpeedFraction = 1.0f;
         private float timeSinceLastAttack = Mathf.Infinity;
         Health target;
         
@@ -24,7 +24,7 @@ namespace RPG.Combat
 
             if(!GetIsInRange())
             {
-                GetComponent<Mover>().MoveTo(target.transform.position);
+                GetComponent<Mover>().MoveTo(target.transform.position, maxSpeedFraction);
             }
             else
             {
@@ -81,6 +81,7 @@ namespace RPG.Combat
         {
             StopAttack();
             target = null;
+            GetComponent<Mover>().Cancel();
         }
 
         private void StopAttack()
