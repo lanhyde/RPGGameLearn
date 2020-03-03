@@ -2111,6 +2111,22 @@ Transform:
   m_Father: {fileID: 2396660970621256093}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &2809189805059026138
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6235676300328897167}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!136 &1115503089
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2137,22 +2153,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b0ea7c94779ab84c8a3371beab1bf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!54 &2809189805059026138
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6235676300328897167}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &8986953699731179058
 GameObject:
   m_ObjectHideFlags: 0
@@ -2311,6 +2311,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 77f1d5564efe15c4ba3bb8095b0a5b20,
         type: 2}
+    - target: {fileID: 5934458361506313896, guid: aa3d956861e324546ad66d6b7d0865a0,
+        type: 3}
+      propertyPath: leftHandTransform
+      value: 
+      objectReference: {fileID: 1088425068311881625}
+    - target: {fileID: 5934458361506313896, guid: aa3d956861e324546ad66d6b7d0865a0,
+        type: 3}
+      propertyPath: rightHandTransform
+      value: 
+      objectReference: {fileID: 2396660970621256093}
     - target: {fileID: 6623652055096362201, guid: aa3d956861e324546ad66d6b7d0865a0,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -11,7 +11,9 @@ namespace RPG.Combat
         float timeBetweenAttacks = 1.5f;
 
         [SerializeField]
-        Transform handTransform = null;
+        Transform rightHandTransform = null;
+        [SerializeField]
+        Transform leftHandTransform = null;
         [SerializeField]
         Weapon defaultWeapon = null;
         private const float maxSpeedFraction = 1.0f;
@@ -102,7 +104,7 @@ namespace RPG.Combat
         {
             currentWeapon = weapon;
             Animator animator = GetComponent<Animator>();
-            weapon.Spawn(handTransform, animator);
+            weapon.Spawn(rightHandTransform, leftHandTransform, animator);
         }
     }
 }
