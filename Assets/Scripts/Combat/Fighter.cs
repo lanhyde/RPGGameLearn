@@ -1,3 +1,4 @@
+using System;
 using RPG.Core;
 using RPG.Movement;
 using UnityEngine;
@@ -7,15 +8,24 @@ namespace RPG.Combat
     public class Fighter : MonoBehaviour, IAction
     {
         [SerializeField]
-        float weaponRange = 2f;
-        [SerializeField]
         float timeBetweenAttacks = 1.5f;
+
         [SerializeField]
-        float weaponDamage = 4f;
+        Transform rightHandTransform = null;
+        [SerializeField]
+        Transform leftHandTransform = null;
+        [SerializeField]
+        Weapon defaultWeapon = null;
         private const float maxSpeedFraction = 1.0f;
         private float timeSinceLastAttack = Mathf.Infinity;
-        Health target;
-        
+        private Health target;
+        private Weapon currentWeapon = null;
+
+        private void Start()
+        {
+            EquipWeapon(defaultWeapon);
+        }
+
         private void Update()
         {
             timeSinceLastAttack += Time.deltaTime;
@@ -64,12 +74,24 @@ namespace RPG.Combat
         private void Hit()
         {
             if(!target) return;
-            target.TakeDamage(weaponDamage);
+            if(currentWeapon.HasProjectile())
+            {
+                currentWeapon.LaunchProjectile(rightHandTransform, leftHandTransform, target);
+            }
+            else
+            {
+                target.TakeDamage(currentWeapon.WeaponDamage);
+            }
+        }
+
+        private void Shoot()
+        {
+            Hit();
         }
 
         private bool GetIsInRange()
         {
-            return Vector3.Distance(transform.position, target.transform.position) < weaponRange;
+            return Vector3.Distance(transform.position, target.transform.position) < currentWeapon.WeaponRange;
         }
         public void Attack(GameObject combatTarget)
         {
@@ -88,6 +110,13 @@ namespace RPG.Combat
         {
             GetComponent<Animator>().ResetTrigger("Attack");
             GetComponent<Animator>().SetTrigger("StopAttack");
+        }
+
+        public void EquipWeapon(Weapon weapon)
+        {
+            currentWeapon = weapon;
+            Animator animator = GetComponent<Animator>();
+            weapon.Spawn(rightHandTransform, leftHandTransform, animator);
         }
     }
 }
