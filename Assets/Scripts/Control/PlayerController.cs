@@ -11,7 +11,7 @@ namespace RPG.Control
     public class PlayerController : MonoBehaviour
     {
         private Health health;
-
+        private const float fullSpeedFraction = 1.0f;
         private void Start() {
             health = GetComponent<Health>();
         }
@@ -30,7 +30,7 @@ namespace RPG.Control
             {
                 if(Input.GetMouseButton(0))
                 {
-                    GetComponent<Mover>().StartMoveAction(hit.point);
+                    GetComponent<Mover>().StartMoveAction(hit.point, fullSpeedFraction);
                 }
                 return true;
             }
