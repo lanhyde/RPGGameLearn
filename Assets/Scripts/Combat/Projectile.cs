@@ -10,13 +10,22 @@ namespace RPG.Combat
         private Health target = null;
         [SerializeField]
         private float speed = 1.0f;
+        [SerializeField]
+        private bool allowHoming = true;
         float damage = 0;
 
+        private void Start()
+        {
+            transform.LookAt(GetAimLocation());
+        }
         // Update is called once per frame
         void Update()
         {
-            if(!target) return;
-            transform.LookAt(GetAimLocation());
+            if (!target) return;
+            if (allowHoming && !target.IsDead())
+            {
+                transform.LookAt(GetAimLocation());
+            }
             transform.Translate(Vector3.forward * speed * Time.deltaTime);
         }
 
@@ -29,17 +38,17 @@ namespace RPG.Combat
         private Vector3 GetAimLocation()
         {
             CapsuleCollider targetCapsule = target.GetComponent<CapsuleCollider>();
-            if(!targetCapsule) return target.transform.position;
+            if (!targetCapsule) return target.transform.position;
             return target.transform.position + Vector3.up * targetCapsule.height / 2;
         }
 
-        private void OnTriggerEnter(Collider other) 
+        private void OnTriggerEnter(Collider other)
         {
-            if(other.GetComponent<Health>() == target)
-            {
-                target.TakeDamage(damage);
-                Destroy(gameObject);
-            }
+            if (other.GetComponent<Health>() != target) return;
+            if (target.IsDead()) return;
+
+            target.TakeDamage(damage);
+            Destroy(gameObject);
         }
     }
 }

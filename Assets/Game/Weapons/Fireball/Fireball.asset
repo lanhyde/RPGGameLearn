@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e7fb924da8c3e9449f2435988e40d24, type: 3}
-  m_Name: Bow Blue
+  m_Name: Fireball
   m_EditorClassIdentifier: 
-  animatorOverride: {fileID: 22100000, guid: 24005b435465a2e48a64b7346201a465, type: 2}
-  equippedPrefab: {fileID: 9219692572261076343, guid: f03cb06dbcf92914f87afb8182e8bc41,
-    type: 3}
-  projectile: {fileID: 4025308465618962729, guid: 2beb3b5a2d2a3f54caa3de16b1a4899a,
+  animatorOverride: {fileID: 22100000, guid: 6d0a242615ad44942962f47bd404cbc5, type: 2}
+  equippedPrefab: {fileID: 0}
+  projectile: {fileID: 7976475959180540341, guid: 5c2d68ae7757bb34ca641c02df3152c3,
     type: 3}
   weaponRange: 20
-  weaponDamage: 10
+  weaponDamage: 4
   isRightHanded: 0
