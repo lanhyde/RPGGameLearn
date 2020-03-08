@@ -15,9 +15,10 @@ GameObject:
   - component: {fileID: 660553355}
   - component: {fileID: 5934458361506313896}
   - component: {fileID: 7888927800864360210}
-  - component: {fileID: 8282487902269800422}
   - component: {fileID: 4128495915438136057}
   - component: {fileID: 54311315320994956}
+  - component: {fileID: 6421004740805116967}
+  - component: {fileID: 7501205524264030504}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -159,19 +160,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6147d565e6f31004280549b696147492, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8282487902269800422
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3441898589293721166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc458d89d83e5764c9a90ca052f8501d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthPoints: 100
 --- !u!114 &4128495915438136057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,3 +189,31 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6421004740805116967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3441898589293721166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f990dfd43d683cd4683a0a8d5a6a1b35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingLevel: 1
+  characterClass: 1
+  progression: {fileID: 11400000, guid: 877dc7a0f5ba5e54ba7cecd70b966985, type: 2}
+--- !u!114 &7501205524264030504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3441898589293721166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37fd23dcc327f0a4c8020b03924dc45a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthPoints: 100
