@@ -4809,7 +4809,7 @@ MonoBehaviour:
   maxLifetime: 10
   destroyOnHit:
   - {fileID: 7813426606635537315}
-  lifeAterImpact: 2
+  lifeAterImpact: 0.2
 --- !u!65 &2798661630649154936
 BoxCollider:
   m_ObjectHideFlags: 0

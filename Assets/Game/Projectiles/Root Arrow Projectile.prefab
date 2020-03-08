@@ -194,6 +194,10 @@ MonoBehaviour:
   allowHoming: 1
   hitEffect: {fileID: 3841450958297752948, guid: 4c79c32a01952ca4ca65a3927c59f9d1,
     type: 3}
+  maxLifetime: 10
+  destroyOnHit:
+  - {fileID: 2631854882821728450}
+  lifeAterImpact: 2
 --- !u!65 &2798661630649154936
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -264,6 +268,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7f49c6920d49ba468b083941d79f2c0, type: 3}
+--- !u!1 &2631854882821728450 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1659504181823486, guid: c7f49c6920d49ba468b083941d79f2c0,
+    type: 3}
+  m_PrefabInstance: {fileID: 2631192198706999100}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2635520458149050248 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4750687242688692, guid: c7f49c6920d49ba468b083941d79f2c0,

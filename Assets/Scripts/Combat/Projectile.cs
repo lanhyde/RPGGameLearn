@@ -59,6 +59,8 @@ namespace RPG.Combat
 
             target.TakeDamage(damage);
 
+            speed = 0;
+
             if(hitEffect) {
                 Instantiate(hitEffect, GetAimLocation(), transform.rotation);
             }
