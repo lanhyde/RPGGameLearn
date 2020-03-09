@@ -135,5 +135,10 @@ namespace RPG.Combat
             Weapon weapon = UnityEngine.Resources.Load<Weapon>(weaponName);
             EquipWeapon(weapon);
         }
+
+        public Health GetTarget()
+        {
+            return target;
+        }
     }
 }
