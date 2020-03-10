@@ -1,3 +1,4 @@
+using System;
 using RPG.Core;
 using RPG.Saving;
 using RPG.Stats;
@@ -19,13 +20,21 @@ namespace RPG.Resources
             return isDead;
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(GameObject instigator, float damage)
         {
             healthPoints = Mathf.Max(0, healthPoints - damage);
             if(healthPoints == 0)
             {
                 Die();
+                AwardExperience(instigator);
             }
+        }
+
+        private void AwardExperience(GameObject instigator)
+        {
+            var experience = instigator.GetComponent<Experience>();
+            if(!experience) return;
+            experience.GainExperience(GetComponent<BaseStats>().GetExperienceReward());
         }
 
         public float GetPercentage()
