@@ -27,6 +27,10 @@ namespace RPG.SceneManagement
             {
                 Save();
             }
+            if(Input.GetKeyDown(KeyCode.Delete))
+            {
+                Delete();
+            }
         }
 
         public void Load()
@@ -39,6 +43,12 @@ namespace RPG.SceneManagement
         {
             GetComponent<SavingSystem>().Save(defaultSaveFile);
         }
+        #if UNITY_EDITOR
+        public void Delete()
+        {
+            GetComponent<SavingSystem>().Delete(defaultSaveFile);
+        }
+        #endif
     }
 
 }
