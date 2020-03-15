@@ -2,6 +2,7 @@
 using RPG.Core;
 using RPG.Movement;
 using RPG.Resources;
+using RPG.Utils;
 using UnityEngine;
 
 namespace RPG.Control
@@ -24,19 +25,23 @@ namespace RPG.Control
         private Fighter fighter;
         private GameObject player;
         private Health health;
-        private Vector3 guardPosition;
+        private LazyValue<Vector3> guardPosition;
         private Mover mover;
         private float timeSinceLastSawPlayer = Mathf.Infinity;
         private float timeSinceArriveAtWaypoint = Mathf.Infinity;
         private int currentWaypointIndex = 0;
-        private void Start()
+        private void Awake()
         {
             fighter = GetComponent<Fighter>();   
             player = GameObject.FindWithTag("Player"); 
             health = GetComponent<Health>();
             mover = GetComponent<Mover>();
+            guardPosition = new LazyValue<Vector3>(() => transform.position);
+        }
 
-            guardPosition = transform.position;
+        private void Start()
+        {
+            guardPosition.ForceInit();
         }
         void Update()
         {

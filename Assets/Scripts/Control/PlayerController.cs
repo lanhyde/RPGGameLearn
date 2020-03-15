@@ -9,7 +9,8 @@ namespace RPG.Control
     {
         private Health health;
         private const float fullSpeedFraction = 1.0f;
-        private void Start() {
+        private void Awake()
+        {
             health = GetComponent<Health>();
         }
         // Update is called once per frame
