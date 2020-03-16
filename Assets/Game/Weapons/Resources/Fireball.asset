@@ -17,5 +17,6 @@ MonoBehaviour:
   projectile: {fileID: 7976475959180540341, guid: 5c2d68ae7757bb34ca641c02df3152c3,
     type: 3}
   weaponRange: 20
-  weaponDamage: 12
+  weaponDamage: 0
+  percentageBonus: 25
   isRightHanded: 0
