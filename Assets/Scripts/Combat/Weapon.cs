@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using RPG.Core;
+﻿using System;
+using RPG.Resources;
 using UnityEngine;
 
 namespace RPG.Combat
@@ -18,6 +17,8 @@ namespace RPG.Combat
         float weaponRange = 2f;
         [SerializeField]
         float weaponDamage = 4f;
+
+        [SerializeField] private float percentageBonus = 0f;
         [SerializeField]
         bool isRightHanded = true;
         
@@ -51,10 +52,15 @@ namespace RPG.Combat
         public bool HasProjectile() => projectile != null;
         public Transform GetHandTransform(Transform rightHand, Transform leftHand) => isRightHanded ? rightHand : leftHand;
 
-        public void LaunchProjectile(Transform rightHand, Transform leftHand, Health target)
+        public void LaunchProjectile(Transform rightHand, Transform leftHand, Health target, GameObject instigator, float calculatedDamage)
         {
             Projectile projectileInstance = Instantiate(projectile, GetHandTransform(rightHand, leftHand).position, Quaternion.identity);
-            projectileInstance.SetTarget(target, weaponDamage);
+            projectileInstance.SetTarget(target, instigator, calculatedDamage);
+        }
+
+        public float GetPercentageBonus()
+        {
+            return percentageBonus;
         }
 
         private void DestroyOldWeapon(Transform rightHand, Transform leftHand)

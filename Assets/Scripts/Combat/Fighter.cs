@@ -1,12 +1,16 @@
-using System;
+using System.Collections;
+using System.Collections.Generic;
 using RPG.Core;
 using RPG.Movement;
+using RPG.Resources;
 using RPG.Saving;
+using RPG.Stats;
+using RPG.Utils;
 using UnityEngine;
 
 namespace RPG.Combat
 {
-    public class Fighter : MonoBehaviour, IAction, ISaveable
+    public class Fighter : MonoBehaviour, IAction, ISaveable, IModifierProvider
     {
         [SerializeField]
         float timeBetweenAttacks = 1.5f;
@@ -21,14 +25,16 @@ namespace RPG.Combat
         private const float maxSpeedFraction = 1.0f;
         private float timeSinceLastAttack = Mathf.Infinity;
         private Health target;
-        private Weapon currentWeapon = null;
+        private LazyValue<Weapon> currentWeapon = null;
 
+        private void Awake()
+        {
+            currentWeapon = new LazyValue<Weapon>(() => 
+                    EquipWeapon(defaultWeapon));
+        }
         private void Start()
         {
-            if (currentWeapon == null)
-            {
-                EquipWeapon(defaultWeapon);
-            }
+            currentWeapon.ForceInit();
         }
 
         private void Update()
@@ -79,13 +85,14 @@ namespace RPG.Combat
         private void Hit()
         {
             if(!target) return;
-            if(currentWeapon.HasProjectile())
+            float damage = GetComponent<BaseStats>().GetStat(Stat.Damage);
+            if(currentWeapon.value.HasProjectile())
             {
-                currentWeapon.LaunchProjectile(rightHandTransform, leftHandTransform, target);
+                currentWeapon.value.LaunchProjectile(rightHandTransform, leftHandTransform, target, gameObject, GetComponent<BaseStats>().GetStat(Stat.Damage));
             }
             else
             {
-                target.TakeDamage(currentWeapon.WeaponDamage);
+                target.TakeDamage(gameObject, GetComponent<BaseStats>().GetStat(Stat.Damage));
             }
         }
 
@@ -96,7 +103,7 @@ namespace RPG.Combat
 
         private bool GetIsInRange()
         {
-            return Vector3.Distance(transform.position, target.transform.position) < currentWeapon.WeaponRange;
+            return Vector3.Distance(transform.position, target.transform.position) < currentWeapon.value.WeaponRange;
         }
         public void Attack(GameObject combatTarget)
         {
@@ -117,23 +124,44 @@ namespace RPG.Combat
             GetComponent<Animator>().SetTrigger("StopAttack");
         }
 
-        public void EquipWeapon(Weapon weapon)
-        {
-            currentWeapon = weapon;
+        public Weapon EquipWeapon(Weapon weapon)
+        { 
             Animator animator = GetComponent<Animator>();
             weapon.Spawn(rightHandTransform, leftHandTransform, animator);
+            return weapon;
         }
 
         public object CaptureState()
         {
-            return currentWeapon.name;
+            return currentWeapon.value.name;
         }
 
         public void RestoreState(object state)
         {
             string weaponName = (string) state;
-            Weapon weapon = Resources.Load<Weapon>(weaponName);
+            Weapon weapon = UnityEngine.Resources.Load<Weapon>(weaponName);
             EquipWeapon(weapon);
+        }
+
+        public Health GetTarget()
+        {
+            return target;
+        }
+
+        public IEnumerable<float> GetAdditiveModifiers(Stat stat)
+        {
+            if (stat == Stat.Damage)
+            {
+                yield return currentWeapon.value.WeaponDamage;
+            }
+        }
+
+        public IEnumerable<float> GetPercentageModifiers(Stat stat)
+        {
+            if (stat == Stat.Damage)
+            {
+                yield return currentWeapon.value.GetPercentageBonus();
+            }
         }
     }
 }

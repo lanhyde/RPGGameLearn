@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using RPG.Saving;
 using System.Collections.Generic;
+using RPG.Resources;
 
 namespace RPG.Movement
 {
@@ -14,7 +15,7 @@ namespace RPG.Movement
         private float maxSpeed = 6f;
         private NavMeshAgent navMeshAgent;
         private Health health;
-        private void Start() {
+        private void Awake() {
             health = GetComponent<Health>();
             navMeshAgent = GetComponent<NavMeshAgent>();
         }

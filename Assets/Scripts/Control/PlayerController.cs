@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using RPG.Combat;
-using RPG.Core;
+﻿using RPG.Combat;
 using RPG.Movement;
+using RPG.Resources;
 using UnityEngine;
 
 namespace RPG.Control
@@ -12,7 +9,8 @@ namespace RPG.Control
     {
         private Health health;
         private const float fullSpeedFraction = 1.0f;
-        private void Start() {
+        private void Awake()
+        {
             health = GetComponent<Health>();
         }
         // Update is called once per frame
