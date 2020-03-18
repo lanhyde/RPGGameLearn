@@ -36,9 +36,27 @@ namespace RPG.Control
                 SetCursor(CursorType.None);
                 return;
             }
-            if (InteractWithCombat()) return;
+            if(InteractWithComponent()) return;
             if (InteractWithMovement()) return;
             SetCursor(CursorType.None);
+        }
+
+        private bool InteractWithComponent()
+        {
+            RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
+            foreach(RaycastHit hit in hits)
+            {
+                IRaycastable[] raycastables = hit.transform.GetComponents<IRaycastable>();
+                foreach(IRaycastable raycastable in raycastables)
+                {
+                    if(raycastable.HandleRaycast(this))
+                    {
+                        SetCursor(CursorType.Combat);
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         private bool InteractWithUI()
@@ -60,27 +78,6 @@ namespace RPG.Control
                     GetComponent<Mover>().StartMoveAction(hit.point, fullSpeedFraction);
                 }
                 SetCursor(CursorType.Movement);
-                return true;
-            }
-            return false;
-        }
-
-        private bool InteractWithCombat()
-        {
-            RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
-            foreach (var hit in hits)
-            {
-                var target = hit.transform.GetComponent<CombatTarget>();
-                if(!target) continue;
-
-                GameObject targetGameObject = target.gameObject;
-                if(!GetComponent<Fighter>().CanAttack(targetGameObject)) continue;
-
-                if (Input.GetMouseButton(0))
-                {
-                    GetComponent<Fighter>().Attack(targetGameObject);
-                }
-                SetCursor(CursorType.Combat);
                 return true;
             }
             return false;
