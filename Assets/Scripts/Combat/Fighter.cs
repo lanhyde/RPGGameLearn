@@ -45,10 +45,12 @@ namespace RPG.Combat
 
             if(!GetIsInRange())
             {
+                Debug.Log("a");
                 GetComponent<Mover>().MoveTo(target.transform.position, maxSpeedFraction);
             }
             else
             {
+                Debug.Log("b");
                 GetComponent<Mover>().Cancel();
                 AttackBehaviour();
             }
