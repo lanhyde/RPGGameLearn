@@ -29,8 +29,13 @@ namespace RPG.Combat
 
         private void Awake()
         {
-            currentWeapon = new LazyValue<Weapon>(() => 
-                    EquipWeapon(defaultWeapon));
+            currentWeapon = new LazyValue<Weapon>(SetupDefaultWeapon);
+        }
+
+        private Weapon SetupDefaultWeapon()
+        {
+            AttachWeapon(defaultWeapon);
+            return defaultWeapon;
         }
         private void Start()
         {
@@ -45,12 +50,10 @@ namespace RPG.Combat
 
             if(!GetIsInRange())
             {
-                Debug.Log("a");
                 GetComponent<Mover>().MoveTo(target.transform.position, maxSpeedFraction);
             }
             else
             {
-                Debug.Log("b");
                 GetComponent<Mover>().Cancel();
                 AttackBehaviour();
             }
@@ -126,11 +129,16 @@ namespace RPG.Combat
             GetComponent<Animator>().SetTrigger("StopAttack");
         }
 
-        public Weapon EquipWeapon(Weapon weapon)
-        { 
+        public void EquipWeapon(Weapon weapon)
+        {
+            currentWeapon.value = weapon;
+            AttachWeapon(weapon);
+        }
+
+        private void AttachWeapon(Weapon weapon)
+        {
             Animator animator = GetComponent<Animator>();
             weapon.Spawn(rightHandTransform, leftHandTransform, animator);
-            return weapon;
         }
 
         public object CaptureState()
