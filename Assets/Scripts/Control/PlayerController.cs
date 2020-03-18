@@ -1,13 +1,27 @@
-﻿using RPG.Combat;
+﻿using System;
+using System.Collections;
+using RPG.Combat;
 using RPG.Movement;
 using RPG.Resources;
 using UnityEngine;
-
+using System.Linq;
+using UnityEngine.AI;
+using UnityEngine.EventSystems;
 namespace RPG.Control
 {
     public class PlayerController : MonoBehaviour
     {
+        [System.Serializable]
+        struct CursorMapping
+        {
+            public CursorType type;
+            public Texture2D texture;
+            public Vector2 hotspot;
+        }
         private Health health;
+        [SerializeField] CursorMapping[] cursorMappings = null;
+        [SerializeField] private float maxNavmeshProjectionDistance = 1.0f;
+
         private const float fullSpeedFraction = 1.0f;
         private void Awake()
         {
@@ -16,43 +30,89 @@ namespace RPG.Control
         // Update is called once per frame
         void Update()
         {
-            if(health.IsDead()) return;
-            if (InteractWithCombat()) return;
+            if(InteractWithUI()) return;
+            if(health.IsDead())
+            {
+                SetCursor(CursorType.None);
+                return;
+            }
+            if(InteractWithComponent()) return;
             if (InteractWithMovement()) return;
-            Debug.Log("Nothing to do");
+            SetCursor(CursorType.None);
+        }
+
+        private bool InteractWithComponent()
+        {
+            RaycastHit[] hits = RaycastAllSorted();
+            foreach(RaycastHit hit in hits)
+            {
+                IRaycastable[] raycastables = hit.transform.GetComponents<IRaycastable>();
+                foreach(IRaycastable raycastable in raycastables)
+                {
+                    if(raycastable.HandleRaycast(this))
+                    {
+                        SetCursor(raycastable.GetCursorType());
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        private RaycastHit[] RaycastAllSorted()
+        {
+            var hits = Physics.RaycastAll(GetMouseRay());
+            Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));
+            return hits;
+        }
+
+        private bool InteractWithUI()
+        {
+            if(EventSystem.current.IsPointerOverGameObject())
+            {
+                SetCursor(CursorType.UI);
+                return true;
+            }
+            return false;
         }
 
         private bool InteractWithMovement()
         {
-            if (Physics.Raycast(GetMouseRay(), out RaycastHit hit))
+            if (RaycastNavMesh(out Vector3 target))
             {
                 if(Input.GetMouseButton(0))
                 {
-                    GetComponent<Mover>().StartMoveAction(hit.point, fullSpeedFraction);
+                    GetComponent<Mover>().StartMoveAction(target, fullSpeedFraction);
                 }
+                SetCursor(CursorType.Movement);
                 return true;
             }
             return false;
         }
 
-        private bool InteractWithCombat()
+        private bool RaycastNavMesh(out Vector3 target)
         {
-            RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
-            foreach (var hit in hits)
-            {
-                var target = hit.transform.GetComponent<CombatTarget>();
-                if(!target) continue;
+            target = Vector3.zero;
+            bool hasHit = Physics.Raycast(GetMouseRay(), out RaycastHit hit);
+            if (!hasHit) return false;
 
-                GameObject targetGameObject = target.gameObject;
-                if(!GetComponent<Fighter>().CanAttack(targetGameObject)) continue;
+            bool hasCastToNavmesh = NavMesh.SamplePosition(hit.point, out NavMeshHit meshHit,
+                maxNavmeshProjectionDistance, NavMesh.AllAreas);
+            if (!hasCastToNavmesh) return false;
+            target = meshHit.position;
+            return true;
+        }
 
-                if (Input.GetMouseButton(0))
-                {
-                    GetComponent<Fighter>().Attack(targetGameObject);
-                }
-                return true;
-            }
-            return false;
+        private void SetCursor(CursorType cursorType)
+        {
+            var mapping = GetCursorMapping(cursorType);
+            Cursor.SetCursor(mapping.texture, mapping.hotspot, CursorMode.Auto);
+        }
+
+        private CursorMapping GetCursorMapping(CursorType type)
+        {
+            var targetCursor = cursorMappings.SingleOrDefault(c => c.type == type);
+            return targetCursor;
         }
 
         private Ray GetMouseRay()
