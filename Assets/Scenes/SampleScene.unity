@@ -402,7 +402,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 123088242}
-  m_LocalRotation: {x: 0.045423932, y: -0.597761, z: 0.03395499, w: 0.799666}
+  m_LocalRotation: {x: 0.045423906, y: -0.597761, z: 0.03395497, w: 0.799666}
   m_LocalPosition: {x: 3.72, y: 4, z: -2.96}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -782,6 +782,11 @@ PrefabInstance:
         type: 3}
       propertyPath: weaponDamage
       value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 7743488085690761560, guid: cfe38197f1ac23f4eabef981a7f4502f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8891165987093996047, guid: cfe38197f1ac23f4eabef981a7f4502f,
         type: 3}
@@ -1173,6 +1178,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 2e3144190aa92394aa9132e7d21319d5,
         type: 2}
+    - target: {fileID: 7743488085690761560, guid: cfe38197f1ac23f4eabef981a7f4502f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8891165987093996047, guid: cfe38197f1ac23f4eabef981a7f4502f,
         type: 3}
       propertyPath: healthPoints
@@ -1497,6 +1507,11 @@ PrefabInstance:
         type: 3}
       propertyPath: weaponRange
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7743488085690761560, guid: cfe38197f1ac23f4eabef981a7f4502f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8891165987093996047, guid: cfe38197f1ac23f4eabef981a7f4502f,
         type: 3}
@@ -2062,6 +2077,11 @@ PrefabInstance:
       propertyPath: weaponDamage
       value: 26
       objectReference: {fileID: 0}
+    - target: {fileID: 7743488085690761560, guid: cfe38197f1ac23f4eabef981a7f4502f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8891165987093996047, guid: cfe38197f1ac23f4eabef981a7f4502f,
         type: 3}
       propertyPath: healthPoints
@@ -2229,6 +2249,11 @@ PrefabInstance:
       propertyPath: weaponDamage
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 7743488085690761560, guid: cfe38197f1ac23f4eabef981a7f4502f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8891165987093996047, guid: cfe38197f1ac23f4eabef981a7f4502f,
         type: 3}
       propertyPath: healthPoints
@@ -2353,6 +2378,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Archer (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6470465355143628967, guid: 06472cb265fb18c4185fd697df3817a3,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6972885469039595727, guid: 06472cb265fb18c4185fd697df3817a3,
         type: 3}
@@ -4131,6 +4161,11 @@ PrefabInstance:
       propertyPath: weaponDamage
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 7743488085690761560, guid: cfe38197f1ac23f4eabef981a7f4502f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8891165987093996047, guid: cfe38197f1ac23f4eabef981a7f4502f,
         type: 3}
       propertyPath: healthPoints
@@ -4905,6 +4940,11 @@ PrefabInstance:
         type: 3}
       propertyPath: weaponRange
       value: 2.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7743488085690761560, guid: cfe38197f1ac23f4eabef981a7f4502f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8891165987093996047, guid: cfe38197f1ac23f4eabef981a7f4502f,
         type: 3}
@@ -5962,6 +6002,16 @@ PrefabInstance:
         type: 3}
       propertyPath: healthPoints
       value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 6271199441519207193, guid: dd59b155239621c4ab8b751eb00da917,
+        type: 3}
+      propertyPath: maxNavPathLength
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6825919184682975212, guid: dd59b155239621c4ab8b751eb00da917,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7927752342298236405, guid: dd59b155239621c4ab8b751eb00da917,
         type: 3}
