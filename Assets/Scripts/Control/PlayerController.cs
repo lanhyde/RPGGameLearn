@@ -2,7 +2,7 @@
 using System.Collections;
 using RPG.Combat;
 using RPG.Movement;
-using RPG.Resources;
+using RPG.Attributes;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.AI;

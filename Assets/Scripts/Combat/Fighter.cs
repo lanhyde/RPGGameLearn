@@ -1,17 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using RPG.Attributes;
 using RPG.Core;
 using RPG.Movement;
-using RPG.Resources;
 using RPG.Saving;
 using RPG.Stats;
 using RPG.Utils;
 using UnityEngine;
 
-namespace RPG.Combat
-{
-    public class Fighter : MonoBehaviour, IAction, ISaveable, IModifierProvider
-    {
+namespace RPG.Combat {
+    public class Fighter : MonoBehaviour, IAction, ISaveable, IModifierProvider {
         [SerializeField]
         float timeBetweenAttacks = 1.5f;
 
@@ -20,157 +18,131 @@ namespace RPG.Combat
         [SerializeField]
         Transform leftHandTransform = null;
         [SerializeField]
-        Weapon defaultWeapon = null;
+        WeaponConfig defaultWeapon = null;
 
         private const float maxSpeedFraction = 1.0f;
         private float timeSinceLastAttack = Mathf.Infinity;
         private Health target;
-        private LazyValue<Weapon> currentWeapon = null;
-
-        private void Awake()
-        {
-            currentWeapon = new LazyValue<Weapon>(SetupDefaultWeapon);
+        private WeaponConfig currentWeaponConfig = null;
+        private LazyValue<Weapon> currentWeapon;
+        private void Awake () {
+            currentWeaponConfig = defaultWeapon;
+            currentWeapon = new LazyValue<Weapon> (SetupDefaultWeapon);
         }
 
-        private Weapon SetupDefaultWeapon()
-        {
-            AttachWeapon(defaultWeapon);
-            return defaultWeapon;
+        private Weapon SetupDefaultWeapon () {
+            return AttachWeapon (defaultWeapon);
         }
-        private void Start()
-        {
+        private void Start () {
             currentWeapon.ForceInit();
         }
 
-        private void Update()
-        {
+        private void Update () {
             timeSinceLastAttack += Time.deltaTime;
-            if(!target) return;
-            if(target.IsDead()) return;
+            if (!target) return;
+            if (target.IsDead ()) return;
 
-            if(!GetIsInRange())
-            {
-                GetComponent<Mover>().MoveTo(target.transform.position, maxSpeedFraction);
-            }
-            else
-            {
-                GetComponent<Mover>().Cancel();
-                AttackBehaviour();
+            if (!GetIsInRange ()) {
+                GetComponent<Mover> ().MoveTo (target.transform.position, maxSpeedFraction);
+            } else {
+                GetComponent<Mover> ().Cancel ();
+                AttackBehaviour ();
             }
         }
 
-        public bool CanAttack(GameObject combatTarget)
-        {
-            if(!combatTarget) 
-            {
+        public bool CanAttack (GameObject combatTarget) {
+            if (!combatTarget) {
                 return false;
             }
-            Health targetToTest = combatTarget.GetComponent<Health>();
-            return targetToTest != null && !targetToTest.IsDead();
+            Health targetToTest = combatTarget.GetComponent<Health> ();
+            return targetToTest != null && !targetToTest.IsDead ();
         }
 
-        private void AttackBehaviour()
-        {
-            transform.LookAt(target.transform);
-            if(timeSinceLastAttack > timeBetweenAttacks)
-            {
+        private void AttackBehaviour () {
+            transform.LookAt (target.transform);
+            if (timeSinceLastAttack > timeBetweenAttacks) {
                 // This will trigger the hit event
-                TriggerAttack();
+                TriggerAttack ();
                 timeSinceLastAttack = 0;
             }
         }
 
-        private void TriggerAttack()
-        {
-            GetComponent<Animator>().ResetTrigger("StopAttack");
-            GetComponent<Animator>().SetTrigger("Attack");
+        private void TriggerAttack () {
+            GetComponent<Animator> ().ResetTrigger ("StopAttack");
+            GetComponent<Animator> ().SetTrigger ("Attack");
         }
 
         // Animation Event
-        private void Hit()
-        {
-            if(!target) return;
-            float damage = GetComponent<BaseStats>().GetStat(Stat.Damage);
-            if(currentWeapon.value.HasProjectile())
+        private void Hit () {
+            if (!target) return;
+            float damage = GetComponent<BaseStats> ().GetStat (Stat.Damage);
+            if(currentWeapon.value != null)
             {
-                currentWeapon.value.LaunchProjectile(rightHandTransform, leftHandTransform, target, gameObject, GetComponent<BaseStats>().GetStat(Stat.Damage));
+                currentWeapon.value.OnHit();
             }
-            else
-            {
-                target.TakeDamage(gameObject, GetComponent<BaseStats>().GetStat(Stat.Damage));
+            if (currentWeaponConfig.HasProjectile ()) {
+                currentWeaponConfig.LaunchProjectile (rightHandTransform, leftHandTransform, target, gameObject, GetComponent<BaseStats> ().GetStat (Stat.Damage));
+            } else {
+                target.TakeDamage (gameObject, GetComponent<BaseStats> ().GetStat (Stat.Damage));
             }
         }
 
-        private void Shoot()
-        {
-            Hit();
+        private void Shoot () {
+            Hit ();
         }
 
-        private bool GetIsInRange()
-        {
-            return Vector3.Distance(transform.position, target.transform.position) < currentWeapon.value.WeaponRange;
+        private bool GetIsInRange () {
+            return Vector3.Distance (transform.position, target.transform.position) < currentWeaponConfig.WeaponRange;
         }
-        public void Attack(GameObject combatTarget)
-        {
-            GetComponent<ActionScheduler>().StartAction(this);
-            target = combatTarget.GetComponent<Health>();
+        public void Attack (GameObject combatTarget) {
+            GetComponent<ActionScheduler> ().StartAction (this);
+            target = combatTarget.GetComponent<Health> ();
         }
 
-        public void Cancel()
-        {
-            StopAttack();
+        public void Cancel () {
+            StopAttack ();
             target = null;
-            GetComponent<Mover>().Cancel();
+            GetComponent<Mover> ().Cancel ();
         }
 
-        private void StopAttack()
-        {
-            GetComponent<Animator>().ResetTrigger("Attack");
-            GetComponent<Animator>().SetTrigger("StopAttack");
+        private void StopAttack () {
+            GetComponent<Animator> ().ResetTrigger ("Attack");
+            GetComponent<Animator> ().SetTrigger ("StopAttack");
         }
 
-        public void EquipWeapon(Weapon weapon)
-        {
-            currentWeapon.value = weapon;
-            AttachWeapon(weapon);
+        public void EquipWeapon (WeaponConfig weapon) {
+            currentWeaponConfig = weapon;
+            currentWeapon.value = AttachWeapon (weapon);
         }
 
-        private void AttachWeapon(Weapon weapon)
-        {
-            Animator animator = GetComponent<Animator>();
-            weapon.Spawn(rightHandTransform, leftHandTransform, animator);
+        private Weapon AttachWeapon (WeaponConfig weapon) {
+            Animator animator = GetComponent<Animator> ();
+            return weapon.Spawn (rightHandTransform, leftHandTransform, animator);
         }
 
-        public object CaptureState()
-        {
-            return currentWeapon.value.name;
+        public object CaptureState () {
+            return currentWeaponConfig.name;
         }
 
-        public void RestoreState(object state)
-        {
+        public void RestoreState (object state) {
             string weaponName = (string) state;
-            Weapon weapon = UnityEngine.Resources.Load<Weapon>(weaponName);
-            EquipWeapon(weapon);
+            WeaponConfig weapon = UnityEngine.Resources.Load<WeaponConfig> (weaponName);
+            EquipWeapon (weapon);
         }
 
-        public Health GetTarget()
-        {
+        public Health GetTarget () {
             return target;
         }
 
-        public IEnumerable<float> GetAdditiveModifiers(Stat stat)
-        {
-            if (stat == Stat.Damage)
-            {
-                yield return currentWeapon.value.WeaponDamage;
+        public IEnumerable<float> GetAdditiveModifiers (Stat stat) {
+            if (stat == Stat.Damage) {
+                yield return currentWeaponConfig.WeaponDamage;
             }
         }
 
-        public IEnumerable<float> GetPercentageModifiers(Stat stat)
-        {
-            if (stat == Stat.Damage)
-            {
-                yield return currentWeapon.value.GetPercentageBonus();
+        public IEnumerable<float> GetPercentageModifiers (Stat stat) {
+            if (stat == Stat.Damage) {
+                yield return currentWeaponConfig.GetPercentageBonus ();
             }
         }
     }

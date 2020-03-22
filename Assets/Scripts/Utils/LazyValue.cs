@@ -1,9 +1,12 @@
-﻿namespace RPG.Utils
+﻿using System;
+
+namespace RPG.Utils
 {
     /// <summary>
     /// Container class that wraps a value and ensures initialization is 
     /// called just before first use.
     /// </summary>
+    [Serializable]
     public class LazyValue<T>
     {
         private T _value;

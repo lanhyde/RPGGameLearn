@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bow Blue
   m_EditorClassIdentifier: 
   animatorOverride: {fileID: 22100000, guid: 24005b435465a2e48a64b7346201a465, type: 2}
-  equippedPrefab: {fileID: 9219692572261076343, guid: f03cb06dbcf92914f87afb8182e8bc41,
+  equippedPrefab: {fileID: 3383357598043464796, guid: f03cb06dbcf92914f87afb8182e8bc41,
     type: 3}
   projectile: {fileID: 4025308465618962729, guid: 2beb3b5a2d2a3f54caa3de16b1a4899a,
     type: 3}
