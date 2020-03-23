@@ -2,7 +2,7 @@
 using System.Collections;
 using RPG.Combat;
 using RPG.Movement;
-using RPG.Resources;
+using RPG.Attributes;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.AI;
@@ -21,7 +21,7 @@ namespace RPG.Control
         private Health health;
         [SerializeField] CursorMapping[] cursorMappings = null;
         [SerializeField] private float maxNavmeshProjectionDistance = 1.0f;
-
+        [SerializeField] private float raycastRadius = 1f;
         private const float fullSpeedFraction = 1.0f;
         private void Awake()
         {
@@ -61,7 +61,7 @@ namespace RPG.Control
 
         private RaycastHit[] RaycastAllSorted()
         {
-            var hits = Physics.RaycastAll(GetMouseRay());
+            var hits = Physics.SphereCastAll(GetMouseRay(), raycastRadius);
             Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));
             return hits;
         }
@@ -80,6 +80,10 @@ namespace RPG.Control
         {
             if (RaycastNavMesh(out Vector3 target))
             {
+                if (!GetComponent<Mover>().CanMoveTo(target))
+                {
+                    return false;
+                }
                 if(Input.GetMouseButton(0))
                 {
                     GetComponent<Mover>().StartMoveAction(target, fullSpeedFraction);
@@ -99,7 +103,9 @@ namespace RPG.Control
             bool hasCastToNavmesh = NavMesh.SamplePosition(hit.point, out NavMeshHit meshHit,
                 maxNavmeshProjectionDistance, NavMesh.AllAreas);
             if (!hasCastToNavmesh) return false;
+            
             target = meshHit.position;
+
             return true;
         }
 
