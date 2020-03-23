@@ -138,6 +138,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3841450958297752948, guid: 4c79c32a01952ca4ca65a3927c59f9d1,
         type: 3}
+    - target: {fileID: 7976475959180540341, guid: 6426f1bdf04ed314e82d53d83afc70e3,
+        type: 3}
+      propertyPath: allowHoming
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8233560271046062994, guid: 6426f1bdf04ed314e82d53d83afc70e3,
         type: 3}
       propertyPath: m_Name
