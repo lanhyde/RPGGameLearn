@@ -1,12 +1,15 @@
-using System;
+using System.Collections;
+using System.Collections.Generic;
+using RPG.Attributes;
 using RPG.Core;
 using RPG.Movement;
+using RPG.Saving;
+using RPG.Stats;
+using RPG.Utils;
 using UnityEngine;
 
-namespace RPG.Combat
-{
-    public class Fighter : MonoBehaviour, IAction
-    {
+namespace RPG.Combat {
+    public class Fighter : MonoBehaviour, IAction, ISaveable, IModifierProvider {
         [SerializeField]
         float timeBetweenAttacks = 1.5f;
 
@@ -15,108 +18,138 @@ namespace RPG.Combat
         [SerializeField]
         Transform leftHandTransform = null;
         [SerializeField]
-        Weapon defaultWeapon = null;
+        WeaponConfig defaultWeapon = null;
+
         private const float maxSpeedFraction = 1.0f;
         private float timeSinceLastAttack = Mathf.Infinity;
         private Health target;
-        private Weapon currentWeapon = null;
-
-        private void Start()
-        {
-            EquipWeapon(defaultWeapon);
+        private WeaponConfig currentWeaponConfig = null;
+        private LazyValue<Weapon> currentWeapon;
+        private void Awake () {
+            currentWeaponConfig = defaultWeapon;
+            currentWeapon = new LazyValue<Weapon> (SetupDefaultWeapon);
         }
 
-        private void Update()
-        {
+        private Weapon SetupDefaultWeapon () {
+            return AttachWeapon (defaultWeapon);
+        }
+        private void Start () {
+            currentWeapon.ForceInit();
+        }
+
+        private void Update () {
             timeSinceLastAttack += Time.deltaTime;
-            if(!target) return;
-            if(target.IsDead()) return;
+            if (!target) return;
+            if (target.IsDead ()) return;
 
-            if(!GetIsInRange())
-            {
-                GetComponent<Mover>().MoveTo(target.transform.position, maxSpeedFraction);
-            }
-            else
-            {
-                GetComponent<Mover>().Cancel();
-                AttackBehaviour();
+            if (!GetIsInRange (target.transform)) {
+                GetComponent<Mover> ().MoveTo (target.transform.position, maxSpeedFraction);
+            } else {
+                GetComponent<Mover> ().Cancel ();
+                AttackBehaviour ();
             }
         }
 
-        public bool CanAttack(GameObject combatTarget)
-        {
-            if(!combatTarget) 
+        public bool CanAttack (GameObject combatTarget) {
+            if (!combatTarget) {
+                return false;
+            }
+
+            if (!GetComponent<Mover>().CanMoveTo(combatTarget.transform.position) && 
+                GetIsInRange(combatTarget.transform))
             {
                 return false;
             }
-            Health targetToTest = combatTarget.GetComponent<Health>();
-            return targetToTest != null && !targetToTest.IsDead();
+            Health targetToTest = combatTarget.GetComponent<Health> ();
+            return targetToTest != null && !targetToTest.IsDead ();
         }
 
-        private void AttackBehaviour()
-        {
-            transform.LookAt(target.transform);
-            if(timeSinceLastAttack > timeBetweenAttacks)
-            {
+        private void AttackBehaviour () {
+            transform.LookAt (target.transform);
+            if (timeSinceLastAttack > timeBetweenAttacks) {
                 // This will trigger the hit event
-                TriggerAttack();
+                TriggerAttack ();
                 timeSinceLastAttack = 0;
             }
         }
 
-        private void TriggerAttack()
-        {
-            GetComponent<Animator>().ResetTrigger("StopAttack");
-            GetComponent<Animator>().SetTrigger("Attack");
+        private void TriggerAttack () {
+            GetComponent<Animator> ().ResetTrigger ("StopAttack");
+            GetComponent<Animator> ().SetTrigger ("Attack");
         }
 
         // Animation Event
-        private void Hit()
-        {
-            if(!target) return;
-            if(currentWeapon.HasProjectile())
+        private void Hit () {
+            if (!target) return;
+            float damage = GetComponent<BaseStats> ().GetStat (Stat.Damage);
+            if(currentWeapon.value != null)
             {
-                currentWeapon.LaunchProjectile(rightHandTransform, leftHandTransform, target);
+                currentWeapon.value.OnHit();
             }
-            else
-            {
-                target.TakeDamage(currentWeapon.WeaponDamage);
+            if (currentWeaponConfig.HasProjectile ()) {
+                currentWeaponConfig.LaunchProjectile (rightHandTransform, leftHandTransform, target, gameObject, GetComponent<BaseStats> ().GetStat (Stat.Damage));
+            } else {
+                target.TakeDamage (gameObject, GetComponent<BaseStats> ().GetStat (Stat.Damage));
             }
         }
 
-        private void Shoot()
-        {
-            Hit();
+        private void Shoot () {
+            Hit ();
         }
 
-        private bool GetIsInRange()
-        {
-            return Vector3.Distance(transform.position, target.transform.position) < currentWeapon.WeaponRange;
+        private bool GetIsInRange (Transform targetTransform) {
+            return Vector3.Distance (transform.position, targetTransform.position) < currentWeaponConfig.WeaponRange;
         }
-        public void Attack(GameObject combatTarget)
-        {
-            GetComponent<ActionScheduler>().StartAction(this);
-            target = combatTarget.GetComponent<Health>();
+        public void Attack (GameObject combatTarget) {
+            GetComponent<ActionScheduler> ().StartAction (this);
+            target = combatTarget.GetComponent<Health> ();
         }
 
-        public void Cancel()
-        {
-            StopAttack();
+        public void Cancel () {
+            StopAttack ();
             target = null;
-            GetComponent<Mover>().Cancel();
+            GetComponent<Mover> ().Cancel ();
         }
 
-        private void StopAttack()
-        {
-            GetComponent<Animator>().ResetTrigger("Attack");
-            GetComponent<Animator>().SetTrigger("StopAttack");
+        private void StopAttack () {
+            GetComponent<Animator> ().ResetTrigger ("Attack");
+            GetComponent<Animator> ().SetTrigger ("StopAttack");
         }
 
-        public void EquipWeapon(Weapon weapon)
-        {
-            currentWeapon = weapon;
-            Animator animator = GetComponent<Animator>();
-            weapon.Spawn(rightHandTransform, leftHandTransform, animator);
+        public void EquipWeapon (WeaponConfig weapon) {
+            currentWeaponConfig = weapon;
+            currentWeapon.value = AttachWeapon (weapon);
+        }
+
+        private Weapon AttachWeapon (WeaponConfig weapon) {
+            Animator animator = GetComponent<Animator> ();
+            return weapon.Spawn (rightHandTransform, leftHandTransform, animator);
+        }
+
+        public object CaptureState () {
+            return currentWeaponConfig.name;
+        }
+
+        public void RestoreState (object state) {
+            string weaponName = (string) state;
+            WeaponConfig weapon = UnityEngine.Resources.Load<WeaponConfig> (weaponName);
+            EquipWeapon (weapon);
+        }
+
+        public Health GetTarget () {
+            return target;
+        }
+
+        public IEnumerable<float> GetAdditiveModifiers (Stat stat) {
+            if (stat == Stat.Damage) {
+                yield return currentWeaponConfig.WeaponDamage;
+            }
+        }
+
+        public IEnumerable<float> GetPercentageModifiers (Stat stat) {
+            if (stat == Stat.Damage) {
+                yield return currentWeaponConfig.GetPercentageBonus ();
+            }
         }
     }
 }
