@@ -21,7 +21,7 @@ namespace RPG.Control
         private Health health;
         [SerializeField] CursorMapping[] cursorMappings = null;
         [SerializeField] private float maxNavmeshProjectionDistance = 1.0f;
-        [SerializeField] private float maxNavPathLength = 40f;
+        [SerializeField] private float raycastRadius = 1f;
         private const float fullSpeedFraction = 1.0f;
         private void Awake()
         {
@@ -61,7 +61,7 @@ namespace RPG.Control
 
         private RaycastHit[] RaycastAllSorted()
         {
-            var hits = Physics.RaycastAll(GetMouseRay());
+            var hits = Physics.SphereCastAll(GetMouseRay(), raycastRadius);
             Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));
             return hits;
         }
@@ -80,6 +80,10 @@ namespace RPG.Control
         {
             if (RaycastNavMesh(out Vector3 target))
             {
+                if (!GetComponent<Mover>().CanMoveTo(target))
+                {
+                    return false;
+                }
                 if(Input.GetMouseButton(0))
                 {
                     GetComponent<Mover>().StartMoveAction(target, fullSpeedFraction);
@@ -102,25 +106,9 @@ namespace RPG.Control
             
             target = meshHit.position;
 
-            NavMeshPath path = new NavMeshPath();
-            bool hasPath = NavMesh.CalculatePath(transform.position, target, NavMesh.AllAreas, path);
-            if(!hasPath) return false;
-            if(path.status != NavMeshPathStatus.PathComplete) return false;
-            if(GetPathLength(path) > maxNavPathLength) return false;
             return true;
         }
 
-        private float GetPathLength(NavMeshPath path)
-        {
-            float distance = 0f;
-            if(path.corners.Length < 2) return distance;
-
-            for(int i = 0; i < path.corners.Length - 1; ++i) 
-            {
-                distance = Vector3.Distance(path.corners[i], path.corners[i + 1]);
-            }
-            return distance;
-        }
         private void SetCursor(CursorType cursorType)
         {
             var mapping = GetCursorMapping(cursorType);
