@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using RPG.Saving;
 using System.Collections.Generic;
+using RPG.Attributes;
 
 namespace RPG.Movement
 {
@@ -12,9 +13,10 @@ namespace RPG.Movement
         private Transform target;
         [SerializeField]
         private float maxSpeed = 6f;//最大速度
+        [SerializeField] private float maxNavPathLength = 6f;
         private NavMeshAgent navMeshAgent;//导航网络
         private Health health;
-        private void Start() {
+        private void Awake() {
             health = GetComponent<Health>();
             navMeshAgent = GetComponent<NavMeshAgent>();
         }
@@ -24,26 +26,6 @@ namespace RPG.Movement
             navMeshAgent.enabled = !health.IsDead();
             UpdateAnimator();
         }
-
-        /// <summary>
-        /// 更新动画师
-        /// </summary>
-        private void UpdateAnimator()
-        {
-            Vector3 velocity = navMeshAgent.velocity;
-            Vector3 localVelocity = transform.InverseTransformDirection(velocity);//将方向从世界空间转换为局部空间
-
-            #region  暂不明  
-            float speed = localVelocity.z;
-            GetComponent<Animator>().SetFloat("ForwardSpeed", speed); //设置变换速度  
-            #endregion
-        }
-
-
-
-
-
-
 
         public void StartMoveAction(Vector3 destination, float speedFraction)
         {
@@ -62,7 +44,44 @@ namespace RPG.Movement
         {
             navMeshAgent.isStopped = true;
         }
- 
+
+        public bool CanMoveTo(Vector3 destination)
+        {
+            NavMeshPath path = new NavMeshPath();
+            bool hasPath = NavMesh.CalculatePath(transform.position, destination, NavMesh.AllAreas, path);
+            if (!hasPath) return false;
+            if (path.status != NavMeshPathStatus.PathComplete) return false;
+            if (GetPathLength(path) > maxNavPathLength) return false;
+
+            return true;
+        }
+
+        private float GetPathLength(NavMeshPath path)
+        {
+            float distance = 0f;
+            if (path.corners.Length < 2) return distance;
+
+            for (int i = 0; i < path.corners.Length - 1; ++i)
+            {
+                distance = Vector3.Distance(path.corners[i], path.corners[i + 1]);
+            }
+            return distance;
+        }
+
+        private void UpdateAnimator()
+        {
+            Vector3 velocity = navMeshAgent.velocity;
+            Vector3 localVelocity = transform.InverseTransformDirection(velocity);
+            float speed = localVelocity.z;
+            GetComponent<Animator>().SetFloat("ForwardSpeed", speed);
+        }
+        
+        [System.Serializable]
+        struct MoverSaveData
+        {
+            public SerializableVector3 position;
+            public SerializableVector3 rotation;
+        }
         public object CaptureState()
         {
             MoverSaveData data = new MoverSaveData();

@@ -28,6 +28,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaseDistance: 5
   suspicionTime: 3
+  aggroTime: 5
   patrolPath: {fileID: 0}
   waypointTolerance: 0.5
   waypointDwellTime: 2
@@ -55,6 +56,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 4350485852090982706, guid: aa3d956861e324546ad66d6b7d0865a0,
+        type: 3}
+      propertyPath: maxNavPathLength
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4350485852090982707, guid: aa3d956861e324546ad66d6b7d0865a0,
         type: 3}
@@ -143,6 +149,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7501205524264030504, guid: aa3d956861e324546ad66d6b7d0865a0,
+        type: 3}
+      propertyPath: takeDamageEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7501205524264030504, guid: aa3d956861e324546ad66d6b7d0865a0,
+        type: 3}
+      propertyPath: takeDamageEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7501205524264030504, guid: aa3d956861e324546ad66d6b7d0865a0,
+        type: 3}
+      propertyPath: takeDamageEvent.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7501205524264030504, guid: aa3d956861e324546ad66d6b7d0865a0,
+        type: 3}
+      propertyPath: takeDamageEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 5490131670715132068}
+    - target: {fileID: 7501205524264030504, guid: aa3d956861e324546ad66d6b7d0865a0,
+        type: 3}
+      propertyPath: takeDamageEvent.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: Aggrevate
+      objectReference: {fileID: 0}
+    - target: {fileID: 7501205524264030504, guid: aa3d956861e324546ad66d6b7d0865a0,
+        type: 3}
+      propertyPath: takeDamageEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7674199062923884752, guid: aa3d956861e324546ad66d6b7d0865a0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa3d956861e324546ad66d6b7d0865a0, type: 3}
 --- !u!1 &2762569149162072999 stripped
@@ -157,6 +198,92 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 689766004502765033}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7028755798531738817 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7501205524264030504, guid: aa3d956861e324546ad66d6b7d0865a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 689766004502765033}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2762569149162072999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37fd23dcc327f0a4c8020b03924dc45a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1001 &3448825356628484385
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 5942916378650024240}
+    m_Modifications:
+    - target: {fileID: 3423152235442633378, guid: 44067afce2d3eab47bee07759c2e0b8b,
+        type: 3}
+      propertyPath: m_Name
+      value: Health Bar
+      objectReference: {fileID: 0}
+    - target: {fileID: 3725563361239289937, guid: 44067afce2d3eab47bee07759c2e0b8b,
+        type: 3}
+      propertyPath: health
+      value: 
+      objectReference: {fileID: 7028755798531738817}
+    - target: {fileID: 3744264894268131088, guid: 44067afce2d3eab47bee07759c2e0b8b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3744264894268131088, guid: 44067afce2d3eab47bee07759c2e0b8b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.017
+      objectReference: {fileID: 0}
+    - target: {fileID: 3744264894268131088, guid: 44067afce2d3eab47bee07759c2e0b8b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3744264894268131088, guid: 44067afce2d3eab47bee07759c2e0b8b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3744264894268131088, guid: 44067afce2d3eab47bee07759c2e0b8b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3744264894268131088, guid: 44067afce2d3eab47bee07759c2e0b8b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3744264894268131088, guid: 44067afce2d3eab47bee07759c2e0b8b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3744264894268131088, guid: 44067afce2d3eab47bee07759c2e0b8b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3744264894268131088, guid: 44067afce2d3eab47bee07759c2e0b8b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3744264894268131088, guid: 44067afce2d3eab47bee07759c2e0b8b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3744264894268131088, guid: 44067afce2d3eab47bee07759c2e0b8b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 44067afce2d3eab47bee07759c2e0b8b, type: 3}
 --- !u!1001 &6253292114018822054
 PrefabInstance:
   m_ObjectHideFlags: 0
