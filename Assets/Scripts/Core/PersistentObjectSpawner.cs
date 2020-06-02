@@ -24,5 +24,4 @@ namespace RPG.Core
             DontDestroyOnLoad(persistentObject);
         }
     }
-
 }

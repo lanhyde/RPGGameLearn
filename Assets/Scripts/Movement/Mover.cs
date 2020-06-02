@@ -6,13 +6,13 @@ using System.Collections.Generic;
 
 namespace RPG.Movement
 {
-    public class Mover : MonoBehaviour, IAction, ISaveable
+    public partial class Mover : MonoBehaviour, IAction, ISaveable
     {
         [SerializeField]
         private Transform target;
         [SerializeField]
-        private float maxSpeed = 6f;
-        private NavMeshAgent navMeshAgent;
+        private float maxSpeed = 6f;//最大速度
+        private NavMeshAgent navMeshAgent;//导航网络
         private Health health;
         private void Start() {
             health = GetComponent<Health>();
@@ -24,6 +24,26 @@ namespace RPG.Movement
             navMeshAgent.enabled = !health.IsDead();
             UpdateAnimator();
         }
+
+        /// <summary>
+        /// 更新动画师
+        /// </summary>
+        private void UpdateAnimator()
+        {
+            Vector3 velocity = navMeshAgent.velocity;
+            Vector3 localVelocity = transform.InverseTransformDirection(velocity);//将方向从世界空间转换为局部空间
+
+            #region  暂不明  
+            float speed = localVelocity.z;
+            GetComponent<Animator>().SetFloat("ForwardSpeed", speed); //设置变换速度  
+            #endregion
+        }
+
+
+
+
+
+
 
         public void StartMoveAction(Vector3 destination, float speedFraction)
         {
@@ -42,21 +62,7 @@ namespace RPG.Movement
         {
             navMeshAgent.isStopped = true;
         }
-
-        private void UpdateAnimator()
-        {
-            Vector3 velocity = navMeshAgent.velocity;
-            Vector3 localVelocity = transform.InverseTransformDirection(velocity);
-            float speed = localVelocity.z;
-            GetComponent<Animator>().SetFloat("ForwardSpeed", speed);
-        }
-        
-        [System.Serializable]
-        struct MoverSaveData
-        {
-            public SerializableVector3 position;
-            public SerializableVector3 rotation;
-        }
+ 
         public object CaptureState()
         {
             MoverSaveData data = new MoverSaveData();
