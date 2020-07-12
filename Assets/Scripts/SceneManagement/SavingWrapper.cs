@@ -30,7 +30,7 @@ namespace RPG.SceneManagement
             if(Input.GetKeyDown(KeyCode.L))
             {
                 Load();
-            }    
+            }
             if(Input.GetKeyDown(KeyCode.S))
             {
                 Save();
@@ -51,12 +51,12 @@ namespace RPG.SceneManagement
         {
             GetComponent<SavingSystem>().Save(defaultSaveFile);
         }
-        #if UNITY_EDITOR
+        //#if UNITY_EDITOR
         public void Delete()
         {
             GetComponent<SavingSystem>().Delete(defaultSaveFile);
         }
-        #endif
+        //#endif
     }
 
 }
