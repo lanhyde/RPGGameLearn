@@ -23,6 +23,8 @@ namespace RPG.Control
         [SerializeField] private float maxNavmeshProjectionDistance = 1.0f;
         [SerializeField] private float raycastRadius = 1f;
         private const float fullSpeedFraction = 1.0f;
+
+        private bool movementStarted = false;
         private void Awake()
         {
             health = GetComponent<Health>();
@@ -30,6 +32,10 @@ namespace RPG.Control
         // Update is called once per frame
         void Update()
         {
+            if (Input.GetMouseButtonUp(0))
+            {
+                movementStarted = false;
+            }
             if(InteractWithUI()) return;
             if(health.IsDead())
             {
@@ -84,7 +90,12 @@ namespace RPG.Control
                 {
                     return false;
                 }
-                if(Input.GetMouseButton(0))
+
+                if (Input.GetMouseButtonDown(0))
+                {
+                    movementStarted = true;
+                }
+                if(Input.GetMouseButton(0) && movementStarted)
                 {
                     GetComponent<Mover>().StartMoveAction(target, fullSpeedFraction);
                 }
