@@ -369,6 +369,36 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 941820039696699065, guid: 2d0b6ec9e61182a46bc836d00df6ddd5,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 941820039696699065, guid: 2d0b6ec9e61182a46bc836d00df6ddd5,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 941820040842744607, guid: 2d0b6ec9e61182a46bc836d00df6ddd5,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 941820040842744607, guid: 2d0b6ec9e61182a46bc836d00df6ddd5,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 941820041255739291, guid: 2d0b6ec9e61182a46bc836d00df6ddd5,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 941820041255739291, guid: 2d0b6ec9e61182a46bc836d00df6ddd5,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1023815090514145164, guid: 2d0b6ec9e61182a46bc836d00df6ddd5,
         type: 3}
       propertyPath: m_AnchorMin.y
