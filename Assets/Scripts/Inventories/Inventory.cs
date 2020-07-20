@@ -93,9 +93,6 @@ namespace RPG.Inventories
         void Awake()
         {
             slots = new InventoryItem[inventorySize];
-            slots[0] = InventoryItem.GetFromID("dfd9dc40-2be5-4952-83ef-50f417e0f7a3");
-            slots[1] = InventoryItem.GetFromID("b799d6e4-a137-4fe7-b08f-613a0eb1294d");
-            slots[2] = InventoryItem.GetFromID("a85d8697-08aa-4410-819f-40310f9528ce");
         }
         /// <summary>
         /// Find a slot that can accomodate the given item.

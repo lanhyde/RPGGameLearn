@@ -20,6 +20,9 @@ namespace RPG.Inventories
         [Tooltip("The UI icon to represent this item in the inventory")] [SerializeField]
         private Sprite icon = null;
 
+        [Tooltip("The prefab that should be spawned when this item is dropped")] [SerializeField]
+        private Pickup pickup = null;
+
         [Tooltip("If true, items of this type can be stacked in the same inventory slot")] [SerializeField]
         private bool stackable = false;
 
@@ -49,6 +52,14 @@ namespace RPG.Inventories
 
             if (itemID == null || !itemLookupCache.ContainsKey(itemID)) return null;
             return itemLookupCache[itemID];
+        }
+
+        public Pickup SpawnPickup(Vector3 position)
+        {
+            var pickup = Instantiate(this.pickup);
+            pickup.transform.position = position;
+            pickup.Setup(this);
+            return pickup;
         }
 
         public Sprite GetIcon()
