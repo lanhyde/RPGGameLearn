@@ -7,6 +7,8 @@ namespace RPG.Inventories
     public class Pickup : MonoBehaviour
     {
         private InventoryItem item;
+        private int number;
+
         private Inventory inventory;
 
         private void Awake()
@@ -15,9 +17,10 @@ namespace RPG.Inventories
             inventory = player.GetComponent<Inventory>();
         }
 
-        public void Setup(InventoryItem inventoryItem)
+        public void Setup(InventoryItem inventoryItem, int number)
         {
             this.item = inventoryItem;
+            this.number = number;
         }
 
         public InventoryItem GetItem()
@@ -25,9 +28,14 @@ namespace RPG.Inventories
             return item;
         }
 
+        public int GetNumber()
+        {
+            return number;
+        }
+
         public void PickupItem()
         {
-            bool foundSlot = inventory.AddToFirstEmptySlot(item);
+            bool foundSlot = inventory.AddToFirstEmptySlot(item, number);
             if (foundSlot)
             {
                 Destroy(gameObject);
