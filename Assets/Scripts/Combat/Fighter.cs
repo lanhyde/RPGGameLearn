@@ -11,16 +11,16 @@ using UnityEngine;
 namespace RPG.Combat {
     public class Fighter : MonoBehaviour, IAction, ISaveable, IModifierProvider {
         [SerializeField]
-        float timeBetweenAttacks = 1.5f;
+        float timeBetweenAttacks = 1.5f;//攻击间隔时间
 
         [SerializeField]
-        Transform rightHandTransform = null;
+        Transform rightHandTransform = null;//右手
         [SerializeField]
-        Transform leftHandTransform = null;
+        Transform leftHandTransform = null;//左手
         [SerializeField]
-        WeaponConfig defaultWeapon = null;
+        WeaponConfig defaultWeapon = null;//默认武器
 
-        private const float maxSpeedFraction = 1.0f;
+        private const float maxSpeedFraction = 1.0f;//最大速度分数？
         private float timeSinceLastAttack = Mathf.Infinity;
         private Health target;
         private WeaponConfig currentWeaponConfig = null;
@@ -43,10 +43,12 @@ namespace RPG.Combat {
             if (target.IsDead ()) return;
 
             if (!GetIsInRange (target.transform)) {
-                GetComponent<Mover> ().MoveTo (target.transform.position, maxSpeedFraction);
-            } else {
-                GetComponent<Mover> ().Cancel ();
-                AttackBehaviour ();
+                 GetComponent<Mover> ().MoveTo (target.transform.position, maxSpeedFraction);//移动过去
+            }
+            else
+            {
+                GetComponent<Mover>().Cancel();//取消移动
+                AttackBehaviour();//攻击
             }
         }
 
@@ -57,30 +59,38 @@ namespace RPG.Combat {
 
             if (!GetComponent<Mover>().CanMoveTo(combatTarget.transform.position) && 
                 GetIsInRange(combatTarget.transform))
+
             {
                 return false;
             }
             Health targetToTest = combatTarget.GetComponent<Health> ();
             return targetToTest != null && !targetToTest.IsDead ();
         }
-
-        private void AttackBehaviour () {
-            transform.LookAt (target.transform);
+        /// <summary>
+        /// 攻击行为
+        /// </summary>
+        private void AttackBehaviour()
+        {
+            //旋转自身，使得当前对象的正z轴指向目标对象target所在的位置。
+            transform.LookAt(target.transform);
             if (timeSinceLastAttack > timeBetweenAttacks) {
                 // This will trigger the hit event
                 TriggerAttack ();
                 timeSinceLastAttack = 0;
             }
         }
-
-        private void TriggerAttack () {
-            GetComponent<Animator> ().ResetTrigger ("StopAttack");
-            GetComponent<Animator> ().SetTrigger ("Attack");
+        /// <summary>
+        ///  触发攻击
+        /// </summary>
+        private void TriggerAttack()
+        {
+            GetComponent<Animator>().ResetTrigger("StopAttack");//重置攻击停止动画
+            GetComponent<Animator>().SetTrigger("Attack");//设置攻击动画
         }
-
         // Animation Event
-        private void Hit () {
-            if (!target) return;
+        private void Hit()//远程攻击?
+        {
+             if (!target) return;
             float damage = GetComponent<BaseStats> ().GetStat (Stat.Damage);
             if(currentWeapon.value != null)
             {
@@ -96,7 +106,10 @@ namespace RPG.Combat {
         private void Shoot () {
             Hit ();
         }
-
+        /// <summary>
+        /// 在攻击范围内
+        /// </summary>
+        /// <returns>结果</returns>
         private bool GetIsInRange (Transform targetTransform) {
             return Vector3.Distance (transform.position, targetTransform.position) < currentWeaponConfig.WeaponRange;
         }
@@ -104,13 +117,17 @@ namespace RPG.Combat {
             GetComponent<ActionScheduler> ().StartAction (this);
             target = combatTarget.GetComponent<Health> ();
         }
-
+        /// <summary>
+        /// 取消
+        /// </summary>
         public void Cancel () {
             StopAttack ();
             target = null;
             GetComponent<Mover> ().Cancel ();
         }
-
+        /// <summary>
+        /// 停止攻击动画
+        /// </summary>
         private void StopAttack () {
             GetComponent<Animator> ().ResetTrigger ("Attack");
             GetComponent<Animator> ().SetTrigger ("StopAttack");
@@ -119,7 +136,7 @@ namespace RPG.Combat {
         public void EquipWeapon (WeaponConfig weapon) {
             currentWeaponConfig = weapon;
             currentWeapon.value = AttachWeapon (weapon);
-        }
+}
 
         private Weapon AttachWeapon (WeaponConfig weapon) {
             Animator animator = GetComponent<Animator> ();

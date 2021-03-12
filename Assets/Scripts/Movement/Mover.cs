@@ -7,14 +7,14 @@ using RPG.Attributes;
 
 namespace RPG.Movement
 {
-    public class Mover : MonoBehaviour, IAction, ISaveable
+    public partial class Mover : MonoBehaviour, IAction, ISaveable
     {
         [SerializeField]
         private Transform target;
         [SerializeField]
-        private float maxSpeed = 6f;
+        private float maxSpeed = 6f;//最大速度
         [SerializeField] private float maxNavPathLength = 6f;
-        private NavMeshAgent navMeshAgent;
+        private NavMeshAgent navMeshAgent;//导航网络
         private Health health;
         private void Awake() {
             health = GetComponent<Health>();
